@@ -1,0 +1,585 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "action": "added",
+        "object": "deal"
+      },
+      "id": "b1da82c3-a516-44fa-9bd5-0037491bdde1",
+      "name": "Deal added",
+      "type": "n8n-nodes-base.pipedriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        560,
+        720
+      ],
+      "webhookId": "aee48718-8dd0-4a5b-b1c1-49df17dd3069",
+      "credentials": {
+        "pipedriveOAuth2Api": {
+          "id": "w5BxrIFJMo1FOEY5",
+          "name": "Pipedrive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "action": "updated",
+        "object": "deal"
+      },
+      "id": "30498de1-fbc3-4fad-bcee-109bbca17403",
+      "name": "Deal updated",
+      "type": "n8n-nodes-base.pipedriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        420,
+        1060
+      ],
+      "webhookId": "a066139d-4a9b-43f9-8fbf-cfd6272f34da",
+      "credentials": {
+        "pipedriveOAuth2Api": {
+          "id": "w5BxrIFJMo1FOEY5",
+          "name": "Pipedrive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.current[\"032995cd9d62439ffe3e9ac45ee86693b81821bc\"] }}",
+          "mode": "username"
+        },
+        "text": "Your application has been submitted!\n\n- YMCA Fitness Studio",
+        "otherOptions": {}
+      },
+      "id": "d1db8e73-f473-4dfc-9f84-b30792c50f3d",
+      "name": "Deal created message",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        720
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "utGsTTRuHUDC6l4v",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C07305PL98C",
+          "mode": "list",
+          "cachedResultName": "pipedrive_salespeople"
+        },
+        "text": "=New application has been submitted by {{ $json.current['91631cb27b5d57d4cd1ef531f61dbd7c0dae67a3'] }}  {{ $json.current[\"5c1eca30cc1083f3a48c4b9151772a876a104e8f\"] }}.\nSalesperson: {{ $json[\"current\"][\"owner_name\"] }}\nDeal id: {{ $json.current.id }}\nDeal link: https://{{ $json.meta.host }}/deal/{{ $json[\"current\"][\"id\"] }}",
+        "otherOptions": {}
+      },
+      "id": "5f8d6e49-f800-41b6-bde4-e89977979f33",
+      "name": "Deal created message(sales)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        500
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "utGsTTRuHUDC6l4v",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Deal created",
+        "height": 420,
+        "width": 758.75,
+        "color": 5
+      },
+      "id": "b3d92693-de01-4777-b174-cb8633987499",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://{{ $json.meta.host }}/api/v2/stages/{{ $json.current[\"stage_id\"] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pipedriveOAuth2Api",
+        "options": {}
+      },
+      "id": "06fd664f-7033-46ba-95c6-8153d35cc801",
+      "name": "GET stage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        1160
+      ],
+      "credentials": {
+        "pipedriveOAuth2Api": {
+          "id": "w5BxrIFJMo1FOEY5",
+          "name": "Pipedrive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## added activity",
+        "height": 455.11341287427103,
+        "width": 684.6848031352658,
+        "color": 7
+      },
+      "id": "8ab4207c-b448-4ddf-8e43-1ce26082011b",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        660,
+        1414.5817843521563
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## won email",
+        "height": 484.3079868359614,
+        "width": 608.3830105537004,
+        "color": 4
+      },
+      "id": "f7511bda-986a-4176-97ad-1e09e96422cf",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        660,
+        1900
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Stage changed",
+        "height": 440.0735530219256,
+        "width": 1018.3405797165908,
+        "color": 6
+      },
+      "id": "3ed4fad0-551f-49b2-a85a-7607bfa68246",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        660,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "7dan7iel7@gmail.com",
+        "subject": "Your application to subscription is approved!",
+        "emailType": "text",
+        "message": "Your application to subscription is approved!\n\nLink to review : https://some-link/to/review.com\n\nThank you!\n\n- YAMCA Fitness Club",
+        "options": {}
+      },
+      "id": "b20b31c8-a1c1-49d4-b597-737873fc003a",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        980,
+        1960
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "MRE9HJR5DSxK0MHd",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "e635ec51-2098-4c09-92b9-632da7c471a4",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        1180,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C07305PL98C",
+          "mode": "list",
+          "cachedResultName": "pipedrive_salespeople"
+        },
+        "text": "=The deal  {{ $json.current.id }} was moved to stage  {{ $input.all()[1].json.data.name }}.\nSalesperson: {{ $json[\"current\"][\"owner_name\"] }}\nDeal id: {{ $json.current.id }}\nDeal link: https://{{ $json.meta.host }}/deal/{{ $json[\"current\"][\"id\"] }}\n",
+        "otherOptions": {}
+      },
+      "id": "379e062f-75f8-483a-b76a-9862fcd6490b",
+      "name": "Deal stage changed (sales)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        1440,
+        1020
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "utGsTTRuHUDC6l4v",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cd748700-6f09-41db-9d0d-a5e80ad8a50d",
+              "leftValue": "={{ $json.previous.stage_order_nr }}",
+              "rightValue": "={{ $json.current.stage_order_nr }}",
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c47e94f4-3696-441a-a356-7edf42d4326b",
+      "name": "Status changed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        700,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "4ca8f165-e1b2-40a4-a7bf-1622e6adf4c2",
+              "leftValue": "={{ $json[\"current\"][\"next_activity_id\"] }}",
+              "rightValue": "={{ $json[\"previous\"][\"next_activity_id\"] }}",
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b881e54b-84dc-4ec6-94c8-6289cd8eed1c",
+      "name": "Activity changed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        720,
+        1560
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "26309a73-dd9c-4fea-b146-a92c74ec3cb5",
+              "leftValue": "={{ $json[\"current\"][\"status\"] }}",
+              "rightValue": "won",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4a8e3776-562a-463c-8d46-98a40ff4d731",
+      "name": "Deal is won",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        680,
+        2000
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C072XHF0H6F",
+          "mode": "list",
+          "cachedResultName": "general"
+        },
+        "text": "=Deal is won! New customer: {{ $json.current['91631cb27b5d57d4cd1ef531f61dbd7c0dae67a3'] }}  {{ $json.current[\"5c1eca30cc1083f3a48c4b9151772a876a104e8f\"] }}.\nSalesperson: {{ $json[\"current\"][\"owner_name\"] }}\nDeal id: {{ $json.current.id }}\nDeal link: https://{{ $json.meta.host }}/deal/{{ $json[\"current\"][\"id\"] }}",
+        "otherOptions": {}
+      },
+      "id": "1188900c-3172-4238-95bd-d000cfa6fe78",
+      "name": "Deal won message(sales)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        980,
+        2180
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "utGsTTRuHUDC6l4v",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C07305PL98C",
+          "mode": "list",
+          "cachedResultName": "pipedrive_salespeople"
+        },
+        "text": "=The deal  {{ $json.current.id }} has new activity:\nDate: {{ $json.current.next_activity_date }}\nDue time: {{ $json.current.next_activity.due_time }}\nLocation: {{ $json.current.next_activity.location }}\nType: {{ $json.current.next_activity_type }}\nSubject: {{ $json.current.next_activity_subject }}\n\nSalesperson: {{ $json[\"current\"][\"owner_name\"] }}\nDeal id: {{ $json.current.id }}\nDeal link: https://{{ $json.meta.host }}/deal/{{ $json[\"current\"][\"id\"] }}\n",
+        "otherOptions": {}
+      },
+      "id": "9f254097-e930-4bef-b494-f71426301c0f",
+      "name": "Deal activity changed (sales)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        1100,
+        1480
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "utGsTTRuHUDC6l4v",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.current['032995cd9d62439ffe3e9ac45ee86693b81821bc'] }}",
+          "mode": "username"
+        },
+        "text": "=You have new activity conserning your application: \nDate: {{ $json.current.next_activity_date }}\nDue time: {{ $json.current.next_activity.due_time }}\nLocation: {{ $json.current.next_activity.location }}\nType: {{ $json.current.next_activity_type }}\nSubject: {{ $json.current.next_activity_subject }}\n\n\n-YMCA Fitness Studio    ",
+        "otherOptions": {}
+      },
+      "id": "0691586f-52b6-490d-bd25-830fc87d45af",
+      "name": "Deal activity changed message",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        1100,
+        1680
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "utGsTTRuHUDC6l4v",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $input.all()[0].json.current[\"032995cd9d62439ffe3e9ac45ee86693b81821bc\"] }}",
+          "mode": "username"
+        },
+        "text": "=Your application status has changed to:\n{{ $input.all()[1].json.data.name }}.\n\n- YMCA Fitness Club",
+        "otherOptions": {}
+      },
+      "id": "d262fe37-6271-47e4-8567-4c2d10aecefc",
+      "name": "Deal stage changed message",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        1440,
+        1220
+      ],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "utGsTTRuHUDC6l4v",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Deal updated": {
+      "main": [
+        [
+          {
+            "node": "Status changed",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Activity changed",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Deal is won",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deal added": {
+      "main": [
+        [
+          {
+            "node": "Deal created message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Deal created message(sales)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET stage": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Deal stage changed (sales)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Deal stage changed message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status changed": {
+      "main": [
+        [
+          {
+            "node": "GET stage",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deal is won": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Deal won message(sales)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Activity changed": {
+      "main": [
+        [
+          {
+            "node": "Deal activity changed (sales)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Deal activity changed message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "06e3878f-ca15-42cf-8653-3ce8007b8e29",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "59ae25982d8004635d3162f051e961117756bd504d065f63e80b2e6299ec5549"
+  },
+  "id": "ANpUSShW1elh76S4",
+  "tags": []
+}
